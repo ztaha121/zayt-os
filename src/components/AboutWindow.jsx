@@ -58,6 +58,12 @@ export default function AboutWindow() {
         <a href="https://github.com/ztaha121" target="_blank" rel="noopener noreferrer" style={{ color: '#10b981', textDecoration: 'none' }}>
           github.com/ztaha121
         </a>
+        {' · '}
+        <a href="https://www.linkedin.com/in/zaynab-taha/" target="_blank" rel="noopener noreferrer" style={{ color: '#10b981', textDecoration: 'none' }}>
+          linkedin.com/in/zaynab-taha
+        </a>
+        {' · '}
+        <span style={{ color: '#10b981' }}>+966 58 043 7821</span>
       </Section>
     </div>
   )
