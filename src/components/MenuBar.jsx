@@ -17,11 +17,18 @@ export default function MenuBar({ onAppClick }) {
     return () => clearInterval(id)
   }, [])
 
+  const NAV = [
+    { label: 'Terminal', id: 'terminal' },
+    { label: 'Projects', id: 'mizan' },
+    { label: 'Patents', id: 'patents' },
+    { label: 'Research', id: 'research' },
+    { label: 'Contact', id: 'about' },
+  ]
+
   return (
     <div style={{
       height: '28px',
-      background: 'rgba(8,8,15,0.85)',
-      backdropFilter: 'blur(20px)',
+      background: 'rgba(8,8,15,0.95)',
       borderBottom: '0.5px solid rgba(255,255,255,0.07)',
       display: 'flex', alignItems: 'center',
       justifyContent: 'space-between',
@@ -35,20 +42,19 @@ export default function MenuBar({ onAppClick }) {
     }}>
       <div style={{ display: 'flex', gap: '20px', alignItems: 'center' }}>
         <span style={{
-          fontFamily: 'var(--mono)',
-          fontWeight: 700,
+          fontFamily: 'var(--mono)', fontWeight: 700,
           background: 'linear-gradient(90deg, #a78bfa, #6ee7b7)',
-          WebkitBackgroundClip: 'text',
-          WebkitTextFillColor: 'transparent',
+          WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent',
           fontSize: '13px',
         }}>Z://</span>
-        {['File', 'Projects', 'Patents', 'Research', 'Contact'].map(item => (
+        {NAV.map(item => (
           <span
-            key={item}
+            key={item.id}
+            onClick={() => onAppClick && onAppClick(item.id)}
             style={{ cursor: 'pointer', transition: 'color 0.15s' }}
-            onMouseEnter={e => e.target.style.color = 'rgba(255,255,255,0.95)'}
+            onMouseEnter={e => e.target.style.color = '#a78bfa'}
             onMouseLeave={e => e.target.style.color = 'rgba(255,255,255,0.7)'}
-          >{item}</span>
+          >{item.label}</span>
         ))}
       </div>
 
@@ -56,10 +62,7 @@ export default function MenuBar({ onAppClick }) {
         <span style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
           <span style={{
             width: '6px', height: '6px', borderRadius: '50%',
-            background: '#10b981',
-            boxShadow: '0 0 6px #10b981',
-            display: 'inline-block',
-            animation: 'pulse 2s ease-in-out infinite',
+            background: '#10b981', display: 'inline-block',
           }} />
           <span style={{ color: 'rgba(255,255,255,0.45)', fontSize: '11px' }}>
             {OWNER.status}
@@ -69,13 +72,6 @@ export default function MenuBar({ onAppClick }) {
           AST {time}
         </span>
       </div>
-
-      <style>{`
-        @keyframes pulse {
-          0%, 100% { opacity: 1; }
-          50% { opacity: 0.4; }
-        }
-      `}</style>
     </div>
   )
 }

@@ -102,7 +102,7 @@ export default function App() {
       display: 'flex', flexDirection: 'column',
       overflow: 'hidden', background: 'var(--bg)',
     }}>
-      <MenuBar />
+      <MenuBar onAppClick={openWindow} />
 
       <div style={{ flex: 1, position: 'relative', overflow: 'hidden' }}>
         <Wallpaper />

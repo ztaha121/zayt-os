@@ -1,10 +1,9 @@
 import { useState, useRef, useEffect } from 'react'
-import { TERMINAL_RESPONSES, OWNER } from '../data/portfolio'
+import { TERMINAL_RESPONSES } from '../data/portfolio'
 
 const SYSTEM_PROMPT = `You are the interactive terminal on Zaynab Taha's portfolio website (Z://OS).
 You answer questions about Zaynab in first person on her behalf, as if you ARE her portfolio AI.
 Keep responses short (3-6 lines max), punchy, and technical. Use plain text, no markdown.
-Use occasional line breaks with \\n for readability.
 
 Key facts about Zaynab:
 - AI developer, founder, MSc candidate at University of Ottawa (Interdisciplinary AI)
@@ -18,10 +17,7 @@ Key facts about Zaynab:
 - Stack: Python, React, Vite, FastAPI, Flask, Node.js, Supabase, PostgreSQL, Kafka, Airflow, AWS
 - Built JobAgent AI — autonomous job application agent
 - GitHub: github.com/ztaha121
-- If asked about hiring: Zaynab is open to AI/data roles, especially in Saudi Arabia or remote
-
-Respond naturally to questions. If someone types a command like 'help', 'whoami', 'skills', etc., 
-respond as an informative terminal would. Keep it real, not corporate.`
+- Open to AI/data roles in Saudi Arabia or remote`
 
 export default function TerminalWindow() {
   const [history, setHistory] = useState([
@@ -49,11 +45,7 @@ export default function TerminalWindow() {
     setHistIdx(-1)
     setInput('')
 
-    // local commands
-    if (trimmed === 'clear') {
-      setHistory([])
-      return
-    }
+    if (trimmed === 'clear') { setHistory([]); return }
 
     const local = TERMINAL_RESPONSES[trimmed]
     if (local) {
@@ -62,17 +54,22 @@ export default function TerminalWindow() {
       return
     }
 
-    // AI fallback — Groq free tier
+    const apiKey = import.meta.env.VITE_GROQ_API_KEY
+    if (!apiKey || apiKey === 'your_groq_api_key_here') {
+      setHistory(h => [...h, { type: 'error', text: 'AI not configured. Add VITE_GROQ_API_KEY to .env and restart.' }])
+      return
+    }
+
     setLoading(true)
     try {
       const res = await fetch('https://api.groq.com/openai/v1/chat/completions', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${import.meta.env.VITE_GROQ_API_KEY}`,
+          'Authorization': `Bearer ${apiKey}`,
         },
         body: JSON.stringify({
-          model: 'llama3-8b-8192',
+          model: 'llama-3.3-70b-versatile',
           max_tokens: 300,
           messages: [
             { role: 'system', content: SYSTEM_PROMPT },
@@ -81,10 +78,14 @@ export default function TerminalWindow() {
         }),
       })
       const data = await res.json()
-      const text = data.choices?.[0]?.message?.content || 'Error: no response'
-      setHistory(h => [...h, { type: 'output', text }])
+      if (data.error) {
+        setHistory(h => [...h, { type: 'error', text: `Groq error: ${data.error.message}` }])
+      } else {
+        const text = data.choices?.[0]?.message?.content || 'No response'
+        setHistory(h => [...h, { type: 'output', text }])
+      }
     } catch (err) {
-      setHistory(h => [...h, { type: 'error', text: 'Connection error. Try again.' }])
+      setHistory(h => [...h, { type: 'error', text: `Network error: ${err.message}` }])
     } finally {
       setLoading(false)
     }
@@ -108,19 +109,10 @@ export default function TerminalWindow() {
 
   return (
     <div
-      style={{
-        height: '340px',
-        display: 'flex', flexDirection: 'column',
-        fontFamily: 'var(--mono)',
-        fontSize: '12px',
-      }}
+      style={{ height: '340px', display: 'flex', flexDirection: 'column', fontFamily: 'var(--mono)', fontSize: '12px' }}
       onClick={() => inputRef.current?.focus()}
     >
-      <div style={{
-        flex: 1, overflowY: 'auto',
-        padding: '14px 16px',
-        lineHeight: '1.75',
-      }}>
+      <div style={{ flex: 1, overflowY: 'auto', padding: '14px 16px', lineHeight: '1.75' }}>
         {history.map((line, i) => (
           <div key={i}>
             {line.type === 'input' ? (
@@ -130,20 +122,13 @@ export default function TerminalWindow() {
               </div>
             ) : (
               <div style={{
-                color: line.type === 'error'
-                  ? '#ef4444'
-                  : 'rgba(255,255,255,0.6)',
-                whiteSpace: 'pre-wrap',
-                marginBottom: '4px',
+                color: line.type === 'error' ? '#ef4444' : 'rgba(255,255,255,0.6)',
+                whiteSpace: 'pre-wrap', marginBottom: '4px',
               }}>{line.text}</div>
             )}
           </div>
         ))}
-        {loading && (
-          <div style={{ color: '#a78bfa' }}>
-            <span style={{ animation: 'blink 0.7s step-end infinite' }}>▋</span>
-          </div>
-        )}
+        {loading && <div style={{ color: '#a78bfa' }}>thinking...</div>}
         <div ref={endRef} />
       </div>
 
@@ -168,8 +153,6 @@ export default function TerminalWindow() {
           placeholder={loading ? 'thinking...' : 'type a command or ask anything...'}
         />
       </div>
-
-      <style>{`@keyframes blink { 50% { opacity: 0; } }`}</style>
     </div>
   )
 }

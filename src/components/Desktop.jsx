@@ -15,7 +15,7 @@ export function DesktopIcons({ openWindows, onOpen }) {
           initial={{ opacity: 0, x: 20 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ delay: i * 0.05 + 0.2 }}
-          onDoubleClick={() => onOpen(app.id)}
+          onClick={() => onOpen(app.id)}
           style={{
             display: 'flex', alignItems: 'center', gap: '10px',
             padding: '6px 10px',
