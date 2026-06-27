@@ -106,7 +106,7 @@ export default function TerminalWindow() {
           'Authorization': `Bearer ${apiKey}`,
         },
         body: JSON.stringify({
-          model: 'gpt-4o-mini',
+          model: 'openai/gpt-oss-20b',
           max_tokens: 300,
           messages: [
             { role: 'system', content: SYSTEM_PROMPT },
