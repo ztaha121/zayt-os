@@ -1,5 +1,3 @@
-import { OWNER } from '../data/portfolio'
-
 export default function AboutWindow() {
   return (
     <div style={{
@@ -21,32 +19,30 @@ export default function AboutWindow() {
         Zaynab Taha
       </h1>
       <p style={{ fontSize: '13px', color: '#a78bfa', marginBottom: '20px', fontFamily: 'var(--mono)' }}>
-        AI developer · founder · MSc candidate
+        developer · founder · MSc candidate
       </p>
 
       <Section title="Who I am">
-        I'm a Canadian-Moroccan AI developer based in Dhahran, Saudi Arabia.
-        I co-invent AI systems with my father Dr. Othman Taha at DTH Technology SARL,
-        work as an AI & Data Analyst at Optvance.ai, and run two of my own products:
-        Mizan (an AI calorie tracker for the Gulf) and ZAYT (a CV optimization service
-        for Arabic-speaking professionals).
+        I'm a developer and founder based in Dhahran, Saudi Arabia.
+        I build full-stack software and AI-powered products — mostly for markets and
+        users that the broader tech industry tends to overlook. I'm currently completing
+        an MSc in Interdisciplinary AI at the University of Ottawa while shipping real products.
       </Section>
 
       <Section title="What I build">
-        Full-stack AI products — from React/Vite frontends to FastAPI backends to
-        Supabase edge functions calling Claude. I've filed 10 USPTO provisional patents,
-        submitted 3 papers to ADIPEC 2026, and shipped code that real people pay for.
-        I build in Arabic and English, for a market most developers ignore.
+        From React frontends to FastAPI backends to mobile apps — I build things end to end
+        and put them in production. My work spans health tech, developer tooling, and enterprise AI.
+        I write code in Python and JavaScript, build for Arabic-speaking users, and deploy on Vercel and AWS.
       </Section>
 
-      <Section title="Education">
-        BSc in Information Technology, Prince Mohammed Bin Fahd University (2025, GPA 3.3).
-        Currently completing an MSc in Interdisciplinary AI at the University of Ottawa — online,
-        covering ML, data science, system optimization, and applied AI.
+      <Section title="Currently">
+        Working on Mizan — an AI-powered food tracking app built for Gulf and Arabic-speaking users.
+        Live on the web and Google Play. Pursuing MSc coursework in ML and data science at the
+        University of Ottawa. Open to new opportunities.
       </Section>
 
       <Section title="Stack">
-        Python · React · Vite · FastAPI · Flask · Node.js · Supabase · PostgreSQL · Claude API ·
+        Python · React · Vite · FastAPI · Flask · Node.js · Supabase · PostgreSQL ·
         Scikit-learn · Pandas · Kafka · Airflow · AWS · Vercel · Android Studio
       </Section>
 

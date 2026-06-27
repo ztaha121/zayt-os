@@ -9,7 +9,7 @@ FULL RESUME:
 
 ZAYNAB TAHA
 Dhahran, Saudi Arabia | zay.taha@gmail.com | github.com/ztaha121
-Canadian-Moroccan. Bilingual Arabic/English (IELTS 7.0). Available immediately.
+Bilingual Arabic/English (IELTS 7.0). Available immediately.
 
 SUMMARY:
 IT Support Specialist with enterprise experience at Honeywell. Builds AI-powered apps, automates workflows, writes code.
@@ -106,7 +106,7 @@ export default function TerminalWindow() {
           'Authorization': `Bearer ${apiKey}`,
         },
         body: JSON.stringify({
-          model: 'llama-3.3-70b-versatile',
+          model: 'gpt-4o-mini',
           max_tokens: 300,
           messages: [
             { role: 'system', content: SYSTEM_PROMPT },
